@@ -1,0 +1,1 @@
+1. create a template.py file, which will store names of all files of folder structure
