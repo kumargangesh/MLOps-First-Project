@@ -2,6 +2,7 @@ import os
 from src.constants import *
 from dataclasses import dataclass
 from datetime import datetime
+from src.logger import logging
 
 TIMESTAMP: str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
 
@@ -10,6 +11,8 @@ class TrainingPipelineConfig:
     pipeline_name: str = PIPELINE_NAME
     artifact_dir: str = os.path.join(ARTIFACT_DIR, TIMESTAMP)
     timestamp: str = TIMESTAMP
+    
+# logging.info(f"/n/nPIPELINE_NAME : {PIPELINE_NAME}")
 
 
 training_pipeline_config: TrainingPipelineConfig = TrainingPipelineConfig()

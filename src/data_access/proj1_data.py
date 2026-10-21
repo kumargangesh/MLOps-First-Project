@@ -4,8 +4,9 @@ import numpy as np
 from typing import Optional
 
 from src.configuration.mongo_db_connection import MongoDBClient
-from src.constants import DATABASE_NAME
+from src.constants import DATABASE_NAME, COLLECTION_NAME
 from src.exception import MyException
+from src.logger import logging
 
 class Proj1Data:
     """
@@ -18,6 +19,7 @@ class Proj1Data:
         """
         try:
             self.mongo_client = MongoDBClient(database_name=DATABASE_NAME)
+            logging.info(f"\n\n\n\n\nDATABASE_NAME : {DATABASE_NAME}\n\n\n\n\n")
         except Exception as e:
             raise MyException(e, sys)
 
@@ -43,13 +45,16 @@ class Proj1Data:
                 collection = self.mongo_client.database[collection_name]
             else:
                 collection = self.mongo_client[database_name][collection_name]
+                
+            print(f"\n\nCollection name: {collection.name}")
 
             # Convert collection data to DataFrame and preprocess
             print("Fetching data from mongoDB")
+            # print(list(collection.find()))
             df = pd.DataFrame(list(collection.find()))
             print(f"Data fecthed with len: {len(df)}")
             if "id" in df.columns.to_list():
-                df = df.drop(columns=["id"], axis=1)
+                df = df.drop(columns=["id"])
             df.replace({"na":np.nan},inplace=True)
             return df
 
